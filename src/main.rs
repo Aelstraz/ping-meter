@@ -195,14 +195,14 @@ pub enum ChannelMessage {
 }
 
 struct DualChannel<T> {
-    sender: mpsc::Sender<T>,
+    sender: mpsc::SyncSender<T>,
     receiver: mpsc::Receiver<T>,
 }
 
 impl<T> DualChannel<T> {
     pub fn new() -> (Self, Self) {
-        let (sender_a, receiver_a) = mpsc::channel();
-        let (sender_b, receiver_b) = mpsc::channel();
+        let (sender_a, receiver_a) = mpsc::sync_channel(3);
+        let (sender_b, receiver_b) = mpsc::sync_channel(3);
 
         (
             Self {
