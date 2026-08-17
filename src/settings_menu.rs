@@ -8,7 +8,6 @@ pub struct SettingsMenu {
     ping_timeout: String,
     ping_address: String,
     max_plot_points: String,
-    plot_aspect_ratio: String,
     error: String,
 }
 
@@ -18,7 +17,6 @@ impl SettingsMenu {
         self.ping_timeout = settings.ping_timeout.to_string();
         self.ping_address = settings.ping_address.to_string();
         self.max_plot_points = settings.max_plot_points.to_string();
-        self.plot_aspect_ratio = settings.plot_aspect_ratio.to_string();
         self.error = String::default();
     }
 
@@ -56,14 +54,6 @@ impl SettingsMenu {
 
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::RIGHT), |ui| {
                     ui.text_edit_singleline(&mut self.max_plot_points);
-                });
-            });
-
-            ui.horizontal(|ui| {
-                ui.label("Plot Aspect Ratio:");
-
-                ui.with_layout(egui::Layout::right_to_left(egui::Align::RIGHT), |ui| {
-                    ui.text_edit_singleline(&mut self.plot_aspect_ratio);
                 });
             });
 
@@ -134,21 +124,6 @@ impl SettingsMenu {
             }
             Err(err) => {
                 self.error = format!("Invalid max plot points! {}", err);
-                return false;
-            }
-        };
-
-        match self.plot_aspect_ratio.parse() {
-            Ok(val) => {
-                if val > 0.0 {
-                    settings.plot_aspect_ratio = val;
-                } else {
-                    self.error = format!("Invalid plot aspect ratio! Must be greater than 0");
-                    return false;
-                }
-            }
-            Err(err) => {
-                self.error = format!("Invalid plot aspect ratio! {}", err);
                 return false;
             }
         };

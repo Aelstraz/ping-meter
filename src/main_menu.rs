@@ -40,11 +40,11 @@ impl MainMenu {
             );
         });
 
-        self.draw_graph(ui, settings, ping_data);
+        self.draw_graph(ui, ping_data);
     }
 
-    fn draw_graph(&mut self, ui: &mut egui::Ui, settings: &Settings, ping_data: &PingData) {
-        ui.group(|group| {
+    fn draw_graph(&mut self, ui: &mut egui::Ui, ping_data: &PingData) {
+        ui.group(|ui| {
             let base_spacer = uniform_grid_spacer(|input| {
                 let base = if input.base_step_size < 1.0 {
                     1.0
@@ -55,7 +55,6 @@ impl MainMenu {
             });
 
             let plot = Plot::new("ping-plot")
-                .view_aspect(settings.plot_aspect_ratio)
                 .allow_zoom(false)
                 .allow_drag(false)
                 .allow_scroll(false)
@@ -66,7 +65,7 @@ impl MainMenu {
                 .y_grid_spacer(move |val| base_spacer(val))
                 .y_axis_formatter(|val, _range| format!("{:.0}", val.value));
 
-            plot.show(group, |plot| {
+            plot.show(ui, |plot| {
                 let points =
                     egui_plot::Points::new("Ping", PlotPoints::Borrowed(&ping_data.plot_points))
                         .radius(4.0)

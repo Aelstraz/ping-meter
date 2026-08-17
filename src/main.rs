@@ -126,7 +126,7 @@ impl App {
 }
 
 impl eframe::App for App {
-    fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
+    fn ui(&mut self, ui: &mut egui::Ui, frame: &mut eframe::Frame) {
         match self.ping_channel.try_receive() {
             Ok(val) => {
                 self.on_receive_channel_data(&val);
@@ -158,7 +158,6 @@ impl eframe::App for App {
                     self.settings_menu
                         .update(ui, &mut self.settings, &mut self.ping_data)
                 }
-                _ => {}
             };
         });
 

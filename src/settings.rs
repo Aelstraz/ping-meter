@@ -8,7 +8,6 @@ pub struct Settings {
     pub ping_timeout: f32,
     pub ping_address: String,
     pub max_plot_points: usize,
-    pub plot_aspect_ratio: f32,
     #[serde(skip_serializing)]
     pub update: bool,
 }
@@ -20,7 +19,6 @@ impl Default for Settings {
             ping_timeout: 3.0,
             ping_address: String::from("8.8.8.8"),
             max_plot_points: 30,
-            plot_aspect_ratio: 1.0,
             update: false,
         }
     }
